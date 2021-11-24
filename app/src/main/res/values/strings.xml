@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Quiz2</string>
+    <string name="label_start">スタート</string>
+    <string name="quiz_image">クイズの画像</string>
+    <string name="bad">不正解</string>
+    <string name="good">正解</string>
+    <string name="timeup">時間切れ</string>
+    <string name="point_text">得点</string>
+    <string name="time_text">タイム</string>
+    <string name="label_back">タイトルへ</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>
