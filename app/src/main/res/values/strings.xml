@@ -8,5 +8,9 @@
     <string name="point_text">得点</string>
     <string name="time_text">タイム</string>
     <string name="label_back">タイトルへ</string>
+    <string name="longtext">あいうえお\nかきくけこ\nさしすせそ\nたちつてと\nなにぬねの\nはひふへほ\nまみむめも\nやゆよ\nらりるれろ\nわをん\nあいうえお\nかきくけこ\nさしすせそ\nたちつてと\nなにぬねの</string>
+    <string name="test_answertext">外部クラウドプロバイダーを使用して、インターネットにアクセス可能にするホストインフラストラクチャサービスを提供する展開モデル</string>
+    <string name="test_quiztext">スタートアップ企業は、CRMアプリケーションを使用して、販売およびサポート組織を管理したいと考えています。会社にはITスタッフはいません。この会社が使用するのに最も適しているクラウドコンピューティングモデルは次のうちどれですか？</string>
+    <string name="btn_decision" >決定</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
