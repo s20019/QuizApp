@@ -50,7 +50,7 @@
     </ScrollView>
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/upperGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -62,20 +62,20 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/checkboxes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+        app:layout_constraintTop_toTopOf="@+id/upperGuideline" />
 
     <LinearLayout
         android:id="@+id/checkboxes"
         android:layout_width="match_parent"
         android:layout_height="370dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/decisionButton"
+        app:layout_constraintBottom_toTopOf="@+id/lowerGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2">
+        app:layout_constraintTop_toTopOf="@+id/progressBar">
 
         <CheckBox
             android:id="@+id/check_A"
@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toTopOf="@+id/check_B"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/progressBar"
             tools:text="@string/test_answertext" />
 
         <CheckBox
@@ -171,12 +171,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/lowerGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:layout_constraintVertical_bias="0.0"
         tools:visibility="gone">
 
@@ -209,6 +208,24 @@
             tools:text="@string/test_answertext" />
 
     </RadioGroup>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lowerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
+
+    <Button
+        android:id="@+id/decisionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lowerGuideline"
+        tools:text="@string/btn_decision" />
 
     <ImageView
         android:id="@+id/bad_icon"
@@ -249,16 +266,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/decisionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkboxes"
-        tools:text="@string/btn_decision" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
