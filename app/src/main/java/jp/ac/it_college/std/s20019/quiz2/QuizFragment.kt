@@ -1,59 +1,74 @@
 package jp.ac.it_college.std.s20019.quiz2
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.animation.ObjectAnimator
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.activity.addCallback
+import androidx.core.os.postDelayed
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import jp.ac.it_college.std.s20019.quiz2.databinding.FragmentQuizBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [QuizFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class QuizFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    companion object {
+        const val MAX_COUNT = 10
+        const val TIME_LIMIT = 10000L
+        const val TIMER_INTERVAL = 100L
+        const val CHOICE_DELAY_TIME = 2000L
+        const val TIME_UP_DELAY_TIME = 1500L
+    }
+
+    private var _binding: FragmentQuizBinding? = null
+    private val binding get() = _binding!!
+    private var current = -1
+    private var timeLeftCountdown = TimeLeftCountdown()
+    private var startTime = 0L
+    private var totalElapsedTime = 0L
+    private var correctCount = 0
+    private val currentElapsedTime get() = SystemClock.elapsedRealtime() - startTime
+
+
+    /**
+     * 制限時間をカウントダウンするタイマー
+     */
+    inner class TimeLeftCountdown : CountDownTimer(TIME_LIMIT, TIMER_INTERVAL) {
+        override fun onTick(millisUntilFinished: Long) {
+            animateToProgress(millisUntilFinished.toInt())
+        }
+
+        override fun onFinish() {
+            totalElapsedTime += TIME_LIMIT
+            //isBulkEnableButton(false)
+            animateToProgress(0)
+            binding.timeupIcon.visibility = View.VISIBLE
+            //delayNext(TIME_UP_DELAY_TIME)
+        }
+
+        /**
+         * API Level 24 であれば、ProgressBar 自体にアニメーションのパラメータがありますが
+         * 今回は 23 なので、ObjectAnimator を使って実装
+         */
+        private fun animateToProgress(progress: Int) {
+            val anim = ObjectAnimator.ofInt(binding.timeLeftBar, "progress", progress)
+            anim.duration = TIMER_INTERVAL
+            anim.start()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quiz, container, false)
+    ): View {
+        _binding = FragmentQuizBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment QuizFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            QuizFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

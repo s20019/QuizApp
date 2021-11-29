@@ -13,4 +13,6 @@
     <string name="longtext">あいうえお\nかきくけこ\nさしすせそ\nたちつてと\nなにぬねの\nはひふへほ\nまみむめも\nやゆよ\nらりるれろ\nわをん\nあいうえお\nかきくけこ\nさしすせそ\nたちつてと\nなにぬねの</string>
     <string name="test_answertext">外部クラウドプロバイダーを使用して、インターネットにアクセス可能にするホストインフラストラクチャサービスを提供する展開モデル</string>
     <string name="test_quiztext">スタートアップ企業は、CRMアプリケーションを使用して、販売およびサポート組織を管理したいと考えています。会社にはITスタッフはいません。この会社が使用するのに最も適しているクラウドコンピューティングモデルは次のうちどれですか？</string>
+    <string name="time_format" translatable="false">%1$01d:%2$02d.%3$02d</string>
+    <string name="point_format" translatable="false">%1$d</string>
 </resources>
