@@ -1,9 +1,11 @@
 package jp.ac.it_college.std.s20019.quiz2
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.*
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
@@ -37,7 +39,45 @@ class QuizActivity : AppCompatActivity() {
     private var startTime = 0L
     private var totalElapsedTime = 0L
     private var correctCount = 0
+    private var answerChoice1 = ""
+    private var answerChoice2 = ""
     private val currentElapsedTime get() = SystemClock.elapsedRealtime() - startTime
+
+    // ラジオボタンで使用するイベントリスナー
+    private val onRadioClick = View.OnClickListener { v ->
+        if (v !is Button) return@OnClickListener
+
+        timeLeftCountdown.cancel()
+        totalElapsedTime += currentElapsedTime
+
+        if (v.text == answerChoice1) {
+            binding.goodIcon.visibility = View.VISIBLE
+            correctCount++
+            next(CHOICE_DELAY_TIME)
+        }
+        else {
+            binding.badIcon.visibility = View.VISIBLE
+            next(CHOICE_DELAY_TIME)
+        }
+    }
+
+    // チェックボックスで使用するイベントリスナー
+    private val onCheckBoxClick = View.OnClickListener { v ->
+        if (v !is Button) return@OnClickListener
+
+        timeLeftCountdown.cancel()
+        totalElapsedTime += currentElapsedTime
+
+        if (v.text == answerChoice1 && v.text == answerChoice2) {   // ２つとも正解だったら
+            binding.goodIcon.visibility = View.VISIBLE
+            correctCount++
+            next(CHOICE_DELAY_TIME)
+        }
+        else {
+            binding.badIcon.visibility = View.VISIBLE
+            next(CHOICE_DELAY_TIME)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +85,9 @@ class QuizActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         receiveQuiz("${API_URL}data")
+        setCheckBox()
+        setRadioButton()
+        next(CHOICE_DELAY_TIME)
     }
 
     /**
@@ -62,10 +105,6 @@ class QuizActivity : AppCompatActivity() {
             next(TIME_UP_DELAY_TIME)
         }
 
-        /**
-         * API Level 24 であれば、ProgressBar 自体にアニメーションのパラメータがありますが
-         * 今回は 23 なので、ObjectAnimator を使って実装
-         */
         private fun animateToProgress(progress: Int) {
             val anim = ObjectAnimator.ofInt(binding.timeLeftBar, "progress", progress)
             anim.duration = TIMER_INTERVAL
@@ -127,6 +166,9 @@ class QuizActivity : AppCompatActivity() {
                     val choiceD = choicesJSON.getString(3)              // ４つ目の選択肢を取得
                     val choiceE = choicesJSON.getString(4)              // ５つ目の選択肢を取得
                     val choiceF = choicesJSON.getString(5)              // ６つ目の選択肢を取得
+
+                    answerChoice1 = choiceA     // 正解を記憶
+                    answerChoice2 = choiceB     // 正解を記憶（正解が２つある場合に使用）
 
                     stmt.run {
                         bindLong(1, idJSON)
@@ -195,7 +237,31 @@ class QuizActivity : AppCompatActivity() {
             startTime = SystemClock.elapsedRealtime()
             return
         }
+        // 次の問題がない場合、ResultActivityに遷移
+        else {
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("CORRECTCOUNT", correctCount)       // correctCountをResultActivityに渡す
+            startActivity(intent)
+        }
     }
+
+    // まとめた方がいい気がしてまとめた
+    private fun setCheckBox() {
+        binding.checkA.setOnClickListener(onCheckBoxClick)
+        binding.checkB.setOnClickListener(onCheckBoxClick)
+        binding.checkC.setOnClickListener(onCheckBoxClick)
+        binding.checkD.setOnClickListener(onCheckBoxClick)
+        binding.checkE.setOnClickListener(onCheckBoxClick)
+        binding.checkF.setOnClickListener(onCheckBoxClick)
+    }
+
+    private fun setRadioButton() {
+        binding.radioA.setOnClickListener(onRadioClick)
+        binding.radioB.setOnClickListener(onRadioClick)
+        binding.radioC.setOnClickListener(onRadioClick)
+        binding.radioD.setOnClickListener(onRadioClick)
+    }
+
     override fun onDestroy() {
         helper.close()
         super.onDestroy()

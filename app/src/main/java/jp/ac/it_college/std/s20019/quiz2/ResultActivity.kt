@@ -11,8 +11,9 @@ class ResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        binding.pointText.text = getString(R.string.point_format)
+        val receiveIntent = getIntent()
+        val correctCount = receiveIntent.getStringExtra("CORRECTCOUNT")?.toInt()
+        binding.pointText.text = getString(R.string.point_format, correctCount)
 
         binding.backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
